@@ -783,57 +783,164 @@
 
         <!-- PANEL: ROI at Mayo Scale -->
         <div id="mpanel_roi" style="display:none;">
-          <div class="section-title" style="font-size:17px;margin-bottom:4px;">Live ROI Model &mdash; Mayo Olmsted Scale</div>
-          <p class="small" style="margin-bottom:16px;">59,421 Olmsted County patients in 2024; 42,103 inpatient admissions; 84,800 ER visits. Defaults reflect a targeted ambulatory pilot. Enable layers to build the all-in value stack.</p>
+          <div class="section-title" style="font-size:17px;margin-bottom:4px;">Full ROI Model &mdash; Mayo Clinic / Olmsted County Scale</div>
+          <p class="small" style="margin-bottom:4px;">59,421 Olmsted County patients in 2024 · 42,103 inpatient admissions · 84,800 ER visits · REP longitudinal population data since 1966. Defaults calibrated to Mayo's ambulatory pilot scale. Enable all layers to build the complete value stack.</p>
+          <div class="callout" style="margin-bottom:14px;background:rgba(201,162,39,.07);border-left:3px solid #C9A227;padding:8px 12px;"><p class="small" style="margin:0;"><strong style="color:#7A5C00;">&#127919; Mayo Scale Context:</strong> At 25,000 targeted visits Mayo's program runs at 2× the illustrative base case. Mayo's payer mix ($285 net revenue vs. $225 standard) and REP data infrastructure create a uniquely high-value NEMT opportunity — both financially and for national evidence generation.</p></div>
+
           <div class="grid grid-2" style="gap:20px;align-items:start;">
-            <div style="display:flex;flex-direction:column;gap:12px;">
-              <div class="callout" style="border-left:4px solid var(--blue);">
-                <strong class="small" style="color:var(--navy);">Layer 0 &mdash; FFS Base</strong>
-                <div class="grid grid-2" style="gap:8px;margin-top:10px;">
-                  <div><label class="small" style="font-weight:700;display:block;margin-bottom:3px;">Visits targeted (V)</label><input id="mr_v" type="number" value="25000" oninput="calcMayoROI()" class="mayo-input"/></div>
+            <!-- LEFT COLUMN: all inputs -->
+            <div style="display:flex;flex-direction:column;gap:14px;">
+
+              <!-- LAYER 0: FFS BASE -->
+              <div class="callout" style="border-left:4px solid var(--navy);">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+                  <strong class="small" style="color:var(--navy);">&#9312; Layer 0 &mdash; FFS Contribution Margin Base</strong>
+                  <span class="badge" style="background:var(--navy);color:#fff;font-size:10px;padding:2px 7px;border-radius:99px;">Always Active</span>
+                </div>
+                <div class="grid grid-2" style="gap:8px;">
+                  <div><label class="small" style="font-weight:700;display:block;margin-bottom:3px;">Annual visits targeted (V)</label><input id="mr_v" type="number" value="25000" oninput="calcMayoROI()" class="mayo-input"/></div>
                   <div><label class="small" style="font-weight:700;display:block;margin-bottom:3px;">No-show rate (n)</label><input id="mr_n" type="number" value="0.18" step="0.01" oninput="calcMayoROI()" class="mayo-input"/></div>
-                  <div><label class="small" style="font-weight:700;display:block;margin-bottom:3px;">Transport share (s)</label><input id="mr_s" type="number" value="0.28" step="0.01" oninput="calcMayoROI()" class="mayo-input"/></div>
+                  <div><label class="small" style="font-weight:700;display:block;margin-bottom:3px;">Transport share of no-shows (s)</label><input id="mr_s" type="number" value="0.28" step="0.01" oninput="calcMayoROI()" class="mayo-input"/></div>
                   <div><label class="small" style="font-weight:700;display:block;margin-bottom:3px;">Mitigation rate (m)</label><input id="mr_m" type="number" value="0.50" step="0.01" oninput="calcMayoROI()" class="mayo-input"/></div>
-                  <div><label class="small" style="font-weight:700;display:block;margin-bottom:3px;">Net revenue/visit ($r)</label><input id="mr_r" type="number" value="285" oninput="calcMayoROI()" class="mayo-input"/></div>
-                  <div><label class="small" style="font-weight:700;display:block;margin-bottom:3px;">Marginal cost/visit ($c)</label><input id="mr_c" type="number" value="110" oninput="calcMayoROI()" class="mayo-input"/></div>
-                  <div><label class="small" style="font-weight:700;display:block;margin-bottom:3px;">Trip cost ($t)</label><input id="mr_t" type="number" value="65" oninput="calcMayoROI()" class="mayo-input"/></div>
-                  <div><label class="small" style="font-weight:700;display:block;margin-bottom:3px;">Overhead (o)</label><input id="mr_o" type="number" value="0.10" step="0.01" oninput="calcMayoROI()" class="mayo-input"/></div>
+                  <div><label class="small" style="font-weight:700;display:block;margin-bottom:3px;">Net revenue per visit ($r)</label><input id="mr_r" type="number" value="285" oninput="calcMayoROI()" class="mayo-input"/></div>
+                  <div><label class="small" style="font-weight:700;display:block;margin-bottom:3px;">Marginal clinical cost ($c)</label><input id="mr_c" type="number" value="110" oninput="calcMayoROI()" class="mayo-input"/></div>
+                  <div><label class="small" style="font-weight:700;display:block;margin-bottom:3px;">Trip cost per round trip ($t)</label><input id="mr_t" type="number" value="65" oninput="calcMayoROI()" class="mayo-input"/></div>
+                  <div><label class="small" style="font-weight:700;display:block;margin-bottom:3px;">Overhead rate (o)</label><input id="mr_o" type="number" value="0.10" step="0.01" oninput="calcMayoROI()" class="mayo-input"/></div>
                 </div>
               </div>
+
+              <!-- LAYER 1: CODING -->
+              <div class="callout" style="border-left:4px solid var(--blue);">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+                  <strong class="small" style="color:var(--navy);">&#9313; Layer 1 &mdash; Coding &amp; SDOH Documentation Uplift</strong>
+                  <label style="display:flex;align-items:center;gap:5px;cursor:pointer;" class="small"><input type="checkbox" id="mr_cod_on" onchange="toggleMayoLayer('cod')"/> Enable</label>
+                </div>
+                <p class="small" style="margin:0 0 6px;color:var(--muted);">Z-code (Z75.3) documentation uplift + CPT capture improvement on NEMT-enabled visits.</p>
+                <div id="mr_cod_box" style="display:none;" class="grid grid-2" style="gap:8px;margin-top:8px;">
+                  <div><label class="small" style="font-weight:700;display:block;margin-bottom:3px;">Z-code capture rate (%)</label><input id="mr_zrate" type="number" value="25" min="0" max="100" oninput="calcMayoROI()" class="mayo-input"/></div>
+                  <div><label class="small" style="font-weight:700;display:block;margin-bottom:3px;">$ uplift per Z-coded encounter</label><input id="mr_zupl" type="number" value="20" oninput="calcMayoROI()" class="mayo-input"/></div>
+                  <div><label class="small" style="font-weight:700;display:block;margin-bottom:3px;">CPT capture rate (%)</label><input id="mr_cptrate" type="number" value="15" min="0" max="100" oninput="calcMayoROI()" class="mayo-input"/></div>
+                  <div><label class="small" style="font-weight:700;display:block;margin-bottom:3px;">$ uplift per CPT-captured encounter</label><input id="mr_cptupl" type="number" value="15" oninput="calcMayoROI()" class="mayo-input"/></div>
+                </div>
+              </div>
+
+              <!-- LAYER 2: CCM/TCM -->
               <div class="callout" style="border-left:4px solid var(--teal);">
-                <div style="display:flex;align-items:center;justify-content:space-between;"><strong class="small" style="color:var(--navy);">Layer 2 &mdash; CCM / TCM</strong><label style="display:flex;align-items:center;gap:5px;cursor:pointer;" class="small"><input type="checkbox" id="mr_ccm_on" onchange="toggleMayoLayer('ccm')"/> Enable</label></div>
-                <div id="mr_ccm_box" style="display:none;" class="grid grid-2">
-                  <div style="margin-top:8px;"><label class="small" style="font-weight:700;display:block;margin-bottom:3px;">CCM-eligible patients</label><input id="mr_cp" type="number" value="800" oninput="calcMayoROI()" class="mayo-input"/></div>
-                  <div style="margin-top:8px;"><label class="small" style="font-weight:700;display:block;margin-bottom:3px;">Enrollment lift rate</label><input id="mr_ce" type="number" value="0.40" step="0.01" oninput="calcMayoROI()" class="mayo-input"/></div>
-                  <div><label class="small" style="font-weight:700;display:block;margin-bottom:3px;">TCM discharges</label><input id="mr_td" type="number" value="320" oninput="calcMayoROI()" class="mayo-input"/></div>
-                  <div><label class="small" style="font-weight:700;display:block;margin-bottom:3px;">TCM reach rate</label><input id="mr_tr" type="number" value="0.55" step="0.01" oninput="calcMayoROI()" class="mayo-input"/></div>
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+                  <strong class="small" style="color:var(--navy);">&#9314; Layer 2 &mdash; CCM / TCM Capture</strong>
+                  <label style="display:flex;align-items:center;gap:5px;cursor:pointer;" class="small"><input type="checkbox" id="mr_ccm_on" onchange="toggleMayoLayer('ccm')"/> Enable</label>
+                </div>
+                <div style="background:rgba(220,38,38,.06);border:1px solid rgba(220,38,38,.2);border-radius:6px;padding:6px 10px;font-size:11px;color:#991B1B;font-weight:600;margin-bottom:8px;">&#9888; CCM/TCM time must be real, threshold-meeting, and non-duplicative. Patient travel time is not billable.</div>
+                <div id="mr_ccm_box" style="display:none;">
+                  <div style="font-size:11px;font-weight:700;color:var(--navy);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px;">CCM Inputs</div>
+                  <div class="grid grid-2" style="gap:8px;">
+                    <div><label class="small" style="font-weight:700;display:block;margin-bottom:3px;">CCM-eligible patients</label><input id="mr_cp" type="number" value="800" oninput="calcMayoROI()" class="mayo-input"/></div>
+                    <div><label class="small" style="font-weight:700;display:block;margin-bottom:3px;">Enrollment rate (%)</label><input id="mr_ce" type="number" value="40" step="1" oninput="calcMayoROI()" class="mayo-input"/></div>
+                    <div><label class="small" style="font-weight:700;display:block;margin-bottom:3px;">Avg billed months/patient/yr</label><input id="mr_cmo" type="number" value="8" step="1" oninput="calcMayoROI()" class="mayo-input"/></div>
+                    <div><label class="small" style="font-weight:700;display:block;margin-bottom:3px;">Avg allowed per patient-month ($)</label><input id="mr_call" type="number" value="62" oninput="calcMayoROI()" class="mayo-input"/></div>
+                    <div><label class="small" style="font-weight:700;display:block;margin-bottom:3px;">Billing success rate (%)</label><input id="mr_csuc" type="number" value="85" step="1" oninput="calcMayoROI()" class="mayo-input"/></div>
+                    <div><label class="small" style="font-weight:700;display:block;margin-bottom:3px;">Staff min/month &times; $0.65/min</label><input id="mr_cmin" type="number" value="20" step="5" oninput="calcMayoROI()" class="mayo-input"/></div>
+                  </div>
+                  <div style="font-size:11px;font-weight:700;color:var(--navy);text-transform:uppercase;letter-spacing:.05em;margin:10px 0 6px;">TCM Inputs</div>
+                  <div class="grid grid-2" style="gap:8px;">
+                    <div><label class="small" style="font-weight:700;display:block;margin-bottom:3px;">TCM-eligible discharges/yr</label><input id="mr_td" type="number" value="420" oninput="calcMayoROI()" class="mayo-input"/></div>
+                    <div><label class="small" style="font-weight:700;display:block;margin-bottom:3px;">Reach/completion rate (%)</label><input id="mr_tr" type="number" value="55" step="1" oninput="calcMayoROI()" class="mayo-input"/></div>
+                    <div><label class="small" style="font-weight:700;display:block;margin-bottom:3px;">% billed 99496 (high MDM, 7-day)</label><input id="mr_thigh" type="number" value="35" step="5" oninput="calcMayoROI()" class="mayo-input"/></div>
+                    <div><label class="small" style="font-weight:700;display:block;margin-bottom:3px;">Billing success rate (%)</label><input id="mr_tsuc" type="number" value="82" step="1" oninput="calcMayoROI()" class="mayo-input"/></div>
+                  </div>
                 </div>
               </div>
+
+              <!-- LAYER 3: VBC -->
               <div class="callout" style="border-left:4px solid var(--green);">
-                <div style="display:flex;align-items:center;justify-content:space-between;"><strong class="small" style="color:var(--navy);">Layer 3 &mdash; VBC + Bank Contribution</strong><label style="display:flex;align-items:center;gap:5px;cursor:pointer;" class="small"><input type="checkbox" id="mr_vbc_on" onchange="toggleMayoLayer('vbc')"/> Enable</label></div>
-                <div id="mr_vbc_box" style="display:none;" class="grid grid-2">
-                  <div style="margin-top:8px;"><label class="small" style="font-weight:700;display:block;margin-bottom:3px;">At-risk quality pool ($)</label><input id="mr_pool" type="number" value="750000" oninput="calcMayoROI()" class="mayo-input"/></div>
-                  <div style="margin-top:8px;"><label class="small" style="font-weight:700;display:block;margin-bottom:3px;">Baseline quality score</label><input id="mr_base" type="number" value="74" oninput="calcMayoROI()" class="mayo-input"/></div>
-                  <div><label class="small" style="font-weight:700;display:block;margin-bottom:3px;">Projected score</label><input id="mr_proj" type="number" value="81" oninput="calcMayoROI()" class="mayo-input"/></div>
-                  <div><label class="small" style="font-weight:700;display:block;margin-bottom:3px;">Bank CRA contribution ($)</label><input id="mr_bank" type="number" value="75000" oninput="calcMayoROI()" class="mayo-input"/></div>
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+                  <strong class="small" style="color:var(--navy);">&#9315; Layer 3 &mdash; VBC Quality Earn-back</strong>
+                  <label style="display:flex;align-items:center;gap:5px;cursor:pointer;" class="small"><input type="checkbox" id="mr_vbc_on" onchange="toggleMayoLayer('vbc')"/> Enable</label>
+                </div>
+                <div id="mr_vbc_box" style="display:none;" class="grid grid-2" style="gap:8px;margin-top:8px;">
+                  <div><label class="small" style="font-weight:700;display:block;margin-bottom:3px;">Contract type</label>
+                    <select id="mr_vbc_type" onchange="toggleMayoCliff();calcMayoROI();" style="width:100%;padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:12px;">
+                      <option value="linear">Linear earn-back (ACO / withhold)</option>
+                      <option value="cliff">Cliff / threshold bonus (Star Ratings)</option>
+                    </select>
+                  </div>
+                  <div><label class="small" style="font-weight:700;display:block;margin-bottom:3px;">At-risk quality pool ($)</label><input id="mr_pool" type="number" value="750000" oninput="calcMayoROI()" class="mayo-input"/></div>
+                  <div><label class="small" style="font-weight:700;display:block;margin-bottom:3px;">Baseline quality score</label><input id="mr_base" type="number" value="74" oninput="calcMayoROI()" class="mayo-input"/></div>
+                  <div><label class="small" style="font-weight:700;display:block;margin-bottom:3px;">Projected score with NEMT</label><input id="mr_proj" type="number" value="81" oninput="calcMayoROI()" class="mayo-input"/></div>
+                  <div id="mr_cliff_row1" style="display:none;"><label class="small" style="font-weight:700;display:block;margin-bottom:3px;">Threshold score for bonus</label><input id="mr_thresh" type="number" value="77" oninput="calcMayoROI()" class="mayo-input"/></div>
+                  <div id="mr_cliff_row2" style="display:none;"><label class="small" style="font-weight:700;display:block;margin-bottom:3px;">Bonus amount if threshold met ($)</label><input id="mr_cliffbonus" type="number" value="300000" oninput="calcMayoROI()" class="mayo-input"/></div>
+                  <div><label class="small" style="font-weight:700;display:block;margin-bottom:3px;">Bank CRA contribution ($/yr)</label><input id="mr_bank" type="number" value="75000" oninput="calcMayoROI()" class="mayo-input"/></div>
                 </div>
               </div>
             </div>
-            <div>
-              <div class="callout">
-                <div class="small" style="font-weight:700;color:var(--navy);text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px;">Live Value Stack</div>
-                <div id="mayo_wf_rows" style="display:flex;flex-direction:column;gap:6px;margin-bottom:14px;"></div>
-                <div style="background:linear-gradient(135deg,var(--navy),#1a3a5c);border-radius:10px;padding:18px;text-align:center;color:#fff;">
-                  <div style="font-size:10px;opacity:.5;text-transform:uppercase;letter-spacing:.08em;">Return on Investment</div>
-                  <div id="mayo_roi_big" style="font-size:44px;font-weight:900;color:#E8C84A;font-family:monospace;line-height:1.1;">&mdash;</div>
-                  <div id="mayo_net_big" style="font-size:18px;font-family:monospace;color:rgba(167,243,208,.9);margin-top:6px;">&mdash;</div>
-                  <div id="mayo_be_txt" style="font-size:11px;opacity:.5;margin-top:6px;background:rgba(255,255,255,.07);padding:4px 12px;border-radius:999px;display:inline-block;">Break-even: &mdash;</div>
+
+            <!-- RIGHT COLUMN: live results -->
+            <div style="display:flex;flex-direction:column;gap:12px;">
+              <!-- Big ROI display -->
+              <div style="background:linear-gradient(135deg,var(--navy),#1a3a5c);border-radius:12px;padding:20px;text-align:center;color:#fff;">
+                <div style="font-size:10px;opacity:.5;text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px;">Return on Investment</div>
+                <div id="mayo_roi_big" style="font-size:52px;font-weight:900;color:#E8C84A;font-family:monospace;line-height:1;">&mdash;</div>
+                <div id="mayo_net_big" style="font-size:17px;font-family:monospace;color:rgba(167,243,208,.9);margin-top:6px;">&mdash;</div>
+                <div id="mayo_be_txt" style="font-size:11px;opacity:.6;margin-top:8px;background:rgba(255,255,255,.08);padding:4px 14px;border-radius:999px;display:inline-block;">Break-even: &mdash;</div>
+              </div>
+
+              <!-- Live value stack rows — FIXED SPACING -->
+              <div class="callout" style="padding:12px 14px;">
+                <div style="font-size:10px;font-weight:700;color:var(--navy);text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px;">&#128202; Live Value Stack</div>
+                <div id="mayo_wf_rows" style="display:flex;flex-direction:column;gap:0;"></div>
+              </div>
+
+              <!-- KPI grid -->
+              <div class="grid grid-2" style="gap:8px;">
+                <div style="background:var(--bg-warm);border:1px solid var(--border);border-radius:8px;padding:10px 12px;">
+                  <div style="font-size:10px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.05em;">Program Cost/yr</div>
+                  <div id="m_kpi_cost" style="font-size:20px;font-weight:900;font-family:monospace;color:var(--navy);margin-top:2px;">&mdash;</div>
                 </div>
-                <div class="callout" style="margin-top:10px;background:rgba(201,162,39,.07);border-left:3px solid #C9A227;padding:8px 12px;"><p class="small"><strong style="color:#7A5C00;">Mayo scale:</strong> 59,421 Olmsted County patients in 2024. At 25,000 targeted visits (42% of county volume) the program runs at nearly double the illustrative Meridian base case. CCM/TCM and VBC pools scale proportionally.</p></div>
+                <div style="background:rgba(4,120,87,.06);border:1px solid rgba(4,120,87,.2);border-radius:8px;padding:10px 12px;">
+                  <div style="font-size:10px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.05em;">FFS Net Benefit</div>
+                  <div id="m_kpi_ffs" style="font-size:20px;font-weight:900;font-family:monospace;color:var(--green);margin-top:2px;">&mdash;</div>
+                </div>
+                <div style="background:rgba(37,99,235,.06);border:1px solid rgba(37,99,235,.2);border-radius:8px;padding:10px 12px;">
+                  <div style="font-size:10px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.05em;">Coding Uplift</div>
+                  <div id="m_kpi_cod" style="font-size:20px;font-weight:900;font-family:monospace;color:var(--blue);margin-top:2px;">&mdash;</div>
+                </div>
+                <div style="background:rgba(13,148,136,.06);border:1px solid rgba(13,148,136,.2);border-radius:8px;padding:10px 12px;">
+                  <div style="font-size:10px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.05em;">CCM Net (incr.)</div>
+                  <div id="m_kpi_ccm" style="font-size:20px;font-weight:900;font-family:monospace;color:var(--teal);margin-top:2px;">&mdash;</div>
+                </div>
+                <div style="background:rgba(13,148,136,.06);border:1px solid rgba(13,148,136,.2);border-radius:8px;padding:10px 12px;">
+                  <div style="font-size:10px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.05em;">TCM Net</div>
+                  <div id="m_kpi_tcm" style="font-size:20px;font-weight:900;font-family:monospace;color:var(--teal);margin-top:2px;">&mdash;</div>
+                </div>
+                <div style="background:rgba(4,120,87,.06);border:1px solid rgba(4,120,87,.2);border-radius:8px;padding:10px 12px;">
+                  <div style="font-size:10px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.05em;">VBC Earn-back</div>
+                  <div id="m_kpi_vbc" style="font-size:20px;font-weight:900;font-family:monospace;color:var(--green);margin-top:2px;">&mdash;</div>
+                </div>
+                <div style="background:linear-gradient(135deg,rgba(0,51,102,.08),rgba(0,51,102,.04));border:1px solid rgba(0,51,102,.2);border-radius:8px;padding:10px 12px;grid-column:1/-1;">
+                  <div style="font-size:10px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.05em;">All-in Net Value (All Active Layers)</div>
+                  <div id="m_kpi_allin" style="font-size:24px;font-weight:900;font-family:monospace;color:var(--navy);margin-top:2px;">&mdash;</div>
+                </div>
+              </div>
+
+              <!-- Sensitivity mini-table -->
+              <div class="callout" style="padding:12px 14px;">
+                <div style="font-size:10px;font-weight:700;color:var(--navy);text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px;">&#128200; Sensitivity &mdash; Mitigation Rate vs. Trip Cost</div>
+                <div id="mayo_sensitivity" style="font-size:11px;font-family:monospace;color:var(--navy);line-height:1.9;white-space:pre;overflow-x:auto;"></div>
+              </div>
+
+              <!-- Scenario comparison -->
+              <div class="callout" style="padding:12px 14px;">
+                <div style="font-size:10px;font-weight:700;color:var(--navy);text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px;">&#127919; Board Scenario Comparison</div>
+                <div id="mayo_scenarios" style="font-size:12px;color:var(--navy);line-height:1.8;"></div>
               </div>
             </div>
           </div>
-          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:16px;"><button class="secondary" onclick="mayoNav('linkage')">&larr; Back to Map</button><button class="primary" onclick="mayoNav('cra')">Build CRA Application &rarr;</button></div>
+
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:16px;">
+            <button class="secondary" onclick="mayoNav('linkage')">&larr; Back to Map</button>
+            <button class="primary" onclick="mayoNav('cra')">Build CRA Application &rarr;</button>
+            <button onclick="mayoNav('draft')" style="background:linear-gradient(135deg,#7A5C00,#B88A00);color:#fff;border:none;border-radius:8px;padding:9px 18px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;">&#128196; Generate Artifacts &rarr;</button>
+          </div>
         </div>
 
         <!-- PANEL: CRA Application -->
@@ -962,29 +1069,75 @@
           <div style="display:flex;gap:8px;flex-wrap:wrap;"><button class="secondary" onclick="mayoNav('cra')">&larr; Back to Application</button><button class="primary" onclick="mayoNav('draft')">Generate Complete Draft &rarr;</button></div>
         </div>
 
-        <!-- PANEL: Generate Draft -->
+        <!-- PANEL: Generate Artifacts -->
         <div id="mpanel_draft" style="display:none;">
-          <div class="section-title" style="font-size:17px;margin-bottom:4px;">Generate Draft Documents</div>
-          <p class="small" style="margin-bottom:18px;">Assembles all five application sections into a complete draft &mdash; pre-populated with 2025 CHNA data and your inputs. Review with legal and finance teams before distribution.</p>
-          <div class="grid grid-2" style="gap:12px;margin-bottom:20px;">
-            <button onclick="generateMayoDraft('memo')" class="primary" style="padding:16px;font-size:14px;">&#128196; CRA Activity Justification Memo</button>
-            <button onclick="generateMayoDraft('term')" style="padding:16px;font-size:14px;background:linear-gradient(135deg,#7A5C00,#B88A00);color:#fff;border:none;border-radius:8px;cursor:pointer;font-family:inherit;font-weight:700;">&#128203; Bank Term Sheet / Pitch Brief</button>
+          <div class="section-title" style="font-size:17px;margin-bottom:4px;">&#127775; Generative Artifact Suite &mdash; Mayo Clinic NEMT Program</div>
+          <p class="small" style="margin-bottom:14px;">Seven high-value artifacts pre-populated with 2025 Olmsted County CHNA data and your ROI model inputs. Each saves 4&ndash;8 hours of preparation. Generate, review, copy, and adapt. All financial figures pull live from the ROI model.</p>
+
+          <!-- Artifact button grid -->
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px;margin-bottom:20px;">
+            <button onclick="generateMayoDraft('proforma')" style="background:linear-gradient(135deg,var(--navy),#1a3a5c);color:#fff;border:none;border-radius:10px;padding:16px 14px;text-align:left;cursor:pointer;font-family:inherit;">
+              <div style="font-size:20px;margin-bottom:6px;">&#128200;</div>
+              <div style="font-size:13px;font-weight:700;">3-Year Pro Forma &amp; P&amp;L</div>
+              <div style="font-size:11px;opacity:.7;margin-top:3px;">Full income statement with year-over-year layer maturation, cost ramp, and cumulative ROI</div>
+            </button>
+            <button onclick="generateMayoDraft('memo')" style="background:linear-gradient(135deg,#1D4ED8,#1e40af);color:#fff;border:none;border-radius:10px;padding:16px 14px;text-align:left;cursor:pointer;font-family:inherit;">
+              <div style="font-size:20px;margin-bottom:6px;">&#128196;</div>
+              <div style="font-size:13px;font-weight:700;">CRA Justification Memo</div>
+              <div style="font-size:11px;opacity:.7;margin-top:3px;">5-section OCC/FDIC-ready memo with CHNA citations, LMI documentation, and outcome metrics</div>
+            </button>
+            <button onclick="generateMayoDraft('term')" style="background:linear-gradient(135deg,#7A5C00,#B88A00);color:#fff;border:none;border-radius:10px;padding:16px 14px;text-align:left;cursor:pointer;font-family:inherit;">
+              <div style="font-size:20px;margin-bottom:6px;">&#128203;</div>
+              <div style="font-size:13px;font-weight:700;">Bank Term Sheet &amp; Pitch Brief</div>
+              <div style="font-size:11px;opacity:.7;margin-top:3px;">Proposed financial structure, reporting cadence, acknowledgment terms, and ROI summary</div>
+            </button>
+            <button onclick="generateMayoDraft('boarddeck')" style="background:linear-gradient(135deg,#7C3AED,#6d28d9);color:#fff;border:none;border-radius:10px;padding:16px 14px;text-align:left;cursor:pointer;font-family:inherit;">
+              <div style="font-size:20px;margin-bottom:6px;">&#127968;</div>
+              <div style="font-size:13px;font-weight:700;">Board Executive Summary</div>
+              <div style="font-size:11px;opacity:.7;margin-top:3px;">One-page board brief: program rationale, three-scenario ROI, compliance posture, ask</div>
+            </button>
+            <button onclick="generateMayoDraft('sla')" style="background:linear-gradient(135deg,#0F766E,#0d6a61);color:#fff;border:none;border-radius:10px;padding:16px 14px;text-align:left;cursor:pointer;font-family:inherit;">
+              <div style="font-size:20px;margin-bottom:6px;">&#128221;</div>
+              <div style="font-size:13px;font-weight:700;">Vendor SLA Template</div>
+              <div style="font-size:11px;opacity:.7;margin-top:3px;">Complete SLA with performance metrics, breach consequences, monitoring protocols, and HIPAA/BAA clauses</div>
+            </button>
+            <button onclick="generateMayoDraft('rep')" style="background:linear-gradient(135deg,#B45309,#92400E);color:#fff;border:none;border-radius:10px;padding:16px 14px;text-align:left;cursor:pointer;font-family:inherit;">
+              <div style="font-size:20px;margin-bottom:6px;">&#128300;</div>
+              <div style="font-size:13px;font-weight:700;">REP Study Protocol</div>
+              <div style="font-size:11px;opacity:.7;margin-top:3px;">Rochester Epidemiology Project matched-cohort design, IRB pathway, endpoints, publication plan</div>
+            </button>
+            <button onclick="generateMayoDraft('kpi')" style="background:linear-gradient(135deg,#065F46,#047857);color:#fff;border:none;border-radius:10px;padding:16px 14px;text-align:left;cursor:pointer;font-family:inherit;">
+              <div style="font-size:20px;margin-bottom:6px;">&#128202;</div>
+              <div style="font-size:13px;font-weight:700;">KPI &amp; Reporting Dashboard</div>
+              <div style="font-size:11px;opacity:.7;margin-top:3px;">Quarterly reporting template: access, clinical, PRO, financial, and compliance metrics with targets</div>
+            </button>
           </div>
+
+          <!-- Output pane -->
           <div id="mayo_draft_out" style="display:none;margin-bottom:20px;">
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;flex-wrap:wrap;gap:8px;">
               <strong id="mayo_draft_title" class="small" style="text-transform:uppercase;letter-spacing:.06em;color:var(--navy);">Document Preview</strong>
-              <button onclick="copyMayoDraft()" class="secondary" style="padding:5px 12px;font-size:12px;">Copy to Clipboard</button>
+              <div style="display:flex;gap:8px;">
+                <button onclick="copyMayoDraft()" class="secondary" style="padding:5px 14px;font-size:12px;">&#128203; Copy to Clipboard</button>
+                <button onclick="downloadMayoDraft()" class="secondary" style="padding:5px 14px;font-size:12px;">&#11015; Download .txt</button>
+              </div>
             </div>
-            <pre id="mayo_draft_content" style="background:var(--bg-warm);border:1px solid var(--border);border-radius:8px;padding:16px;font-size:12px;font-family:monospace;line-height:1.8;white-space:pre-wrap;max-height:420px;overflow-y:auto;color:var(--navy);"></pre>
+            <pre id="mayo_draft_content" style="background:var(--bg-warm);border:1px solid var(--border);border-radius:8px;padding:18px;font-size:12px;font-family:monospace;line-height:1.9;white-space:pre-wrap;max-height:520px;overflow-y:auto;color:var(--navy);"></pre>
           </div>
+
+          <!-- Platform differentiator -->
           <div class="callout" style="border-left:4px solid var(--blue);">
             <strong style="color:var(--navy);">&#128506; What This Platform Does That the ArcGIS CHNA StoryMap Cannot</strong>
             <div class="grid grid-2" style="gap:12px;margin-top:8px;">
               <p class="small"><strong>The 2025 CHNA ArcGIS StoryMap</strong> is an excellent community communication tool &mdash; interactive, geographically rich, publicly accessible. It presents health data beautifully and serves its purpose well.<br><br><strong>This platform</strong> takes CHNA evidence into the financial, regulatory, and partnership domain. It answers the question the StoryMap cannot: <em>given what the CHNA documents, what exactly should a bank fund, and why?</em></p>
-              <p class="small">Specifically: CHNA-to-CRA activity mapping with regulatory citations; ROI modeling at Mayo&rsquo;s actual operational scale; bank-specific engagement strategies based on real CRA exam history; pre-populated draft documents; and a Rochester Epidemiology Project study design framework &mdash; all in a single auditable workflow that closes the loop from community health evidence to multi-year bank partnership.</p>
+              <p class="small">CHNA-to-CRA mapping with regulatory citations &middot; Full 4-layer ROI model at Mayo's actual operational scale &middot; 3-year P&amp;L with layer maturation &middot; Sensitivity analysis and board scenario framing &middot; Bank-specific engagement strategies based on real CRA exam history &middot; Seven pre-populated draft artifacts &middot; Rochester Epidemiology Project study design &mdash; all in a single auditable workflow that closes the loop from community health evidence to multi-year bank partnership.</p>
             </div>
           </div>
-          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:16px;"><button class="secondary" onclick="mayoNav('banks')">&larr; Back to Banks</button><button class="primary" onclick="mayoNav('chna')">&#8635; Review CHNA Evidence</button></div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:16px;">
+            <button class="secondary" onclick="mayoNav('banks')">&larr; Back to Banks</button>
+            <button class="secondary" onclick="mayoNav('roi')">&#128200; Adjust ROI Inputs</button>
+            <button class="primary" onclick="mayoNav('chna')">&#8635; Review CHNA Evidence</button>
+          </div>
         </div>
 
       </div><!-- /panel container -->
