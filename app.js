@@ -2086,11 +2086,11 @@ window.toggleMayoLayer = function(layer) {
   } else if (layer === 'vbc') {
     const box = document.getElementById('mr_vbc_box');
     const chk = document.getElementById('mr_vbc_on');
-    if (box && chk) { box.style.display = chk.checked ? 'grid' : 'none'; }
+    if (box && chk) { box.style.display = chk.checked ? 'block' : 'none'; }
   } else if (layer === 'cod') {
     const box = document.getElementById('mr_cod_box');
     const chk = document.getElementById('mr_cod_on');
-    if (box && chk) { box.style.display = chk.checked ? 'grid' : 'none'; }
+    if (box && chk) { box.style.display = chk.checked ? 'block' : 'none'; }
   }
   calcMayoROI();
 };

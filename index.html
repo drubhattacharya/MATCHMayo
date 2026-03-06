@@ -787,9 +787,9 @@
           <p class="small" style="margin-bottom:4px;">59,421 Olmsted County patients in 2024 · 42,103 inpatient admissions · 84,800 ER visits · REP longitudinal population data since 1966. Defaults calibrated to Mayo's ambulatory pilot scale. Enable all layers to build the complete value stack.</p>
           <div class="callout" style="margin-bottom:14px;background:rgba(201,162,39,.07);border-left:3px solid #C9A227;padding:8px 12px;"><p class="small" style="margin:0;"><strong style="color:#7A5C00;">&#127919; Mayo Scale Context:</strong> At 25,000 targeted visits Mayo's program runs at 2× the illustrative base case. Mayo's payer mix ($285 net revenue vs. $225 standard) and REP data infrastructure create a uniquely high-value NEMT opportunity — both financially and for national evidence generation.</p></div>
 
-          <div class="grid grid-2" style="gap:20px;align-items:start;">
+          <div style="display:flex;gap:20px;align-items:start;flex-wrap:wrap;">
             <!-- LEFT COLUMN: all inputs -->
-            <div style="display:flex;flex-direction:column;gap:14px;">
+            <div style="display:flex;flex-direction:column;gap:14px;min-width:0;overflow:hidden;width:380px;flex-shrink:0;">
 
               <!-- LAYER 0: FFS BASE -->
               <div class="callout" style="border-left:4px solid var(--navy);">
@@ -797,7 +797,7 @@
                   <strong class="small" style="color:var(--navy);">&#9312; Layer 0 &mdash; FFS Contribution Margin Base</strong>
                   <span class="badge" style="background:var(--navy);color:#fff;font-size:10px;padding:2px 7px;border-radius:99px;">Always Active</span>
                 </div>
-                <div class="grid grid-2" style="gap:8px;">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
                   <div><label class="small" style="font-weight:700;display:block;margin-bottom:3px;">Annual visits targeted (V)</label><input id="mr_v" type="number" value="25000" oninput="calcMayoROI()" class="mayo-input"/></div>
                   <div><label class="small" style="font-weight:700;display:block;margin-bottom:3px;">No-show rate (n)</label><input id="mr_n" type="number" value="0.18" step="0.01" oninput="calcMayoROI()" class="mayo-input"/></div>
                   <div><label class="small" style="font-weight:700;display:block;margin-bottom:3px;">Transport share of no-shows (s)</label><input id="mr_s" type="number" value="0.28" step="0.01" oninput="calcMayoROI()" class="mayo-input"/></div>
@@ -816,12 +816,12 @@
                   <label style="display:flex;align-items:center;gap:5px;cursor:pointer;" class="small"><input type="checkbox" id="mr_cod_on" onchange="toggleMayoLayer('cod')"/> Enable</label>
                 </div>
                 <p class="small" style="margin:0 0 6px;color:var(--muted);">Z-code (Z75.3) documentation uplift + CPT capture improvement on NEMT-enabled visits.</p>
-                <div id="mr_cod_box" style="display:none;" class="grid grid-2" style="gap:8px;margin-top:8px;">
+                <div id="mr_cod_box" style="display:none;margin-top:8px;"><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
                   <div><label class="small" style="font-weight:700;display:block;margin-bottom:3px;">Z-code capture rate (%)</label><input id="mr_zrate" type="number" value="25" min="0" max="100" oninput="calcMayoROI()" class="mayo-input"/></div>
                   <div><label class="small" style="font-weight:700;display:block;margin-bottom:3px;">$ uplift per Z-coded encounter</label><input id="mr_zupl" type="number" value="20" oninput="calcMayoROI()" class="mayo-input"/></div>
                   <div><label class="small" style="font-weight:700;display:block;margin-bottom:3px;">CPT capture rate (%)</label><input id="mr_cptrate" type="number" value="15" min="0" max="100" oninput="calcMayoROI()" class="mayo-input"/></div>
                   <div><label class="small" style="font-weight:700;display:block;margin-bottom:3px;">$ uplift per CPT-captured encounter</label><input id="mr_cptupl" type="number" value="15" oninput="calcMayoROI()" class="mayo-input"/></div>
-                </div>
+                </div></div>
               </div>
 
               <!-- LAYER 2: CCM/TCM -->
@@ -833,7 +833,7 @@
                 <div style="background:rgba(220,38,38,.06);border:1px solid rgba(220,38,38,.2);border-radius:6px;padding:6px 10px;font-size:11px;color:#991B1B;font-weight:600;margin-bottom:8px;">&#9888; CCM/TCM time must be real, threshold-meeting, and non-duplicative. Patient travel time is not billable.</div>
                 <div id="mr_ccm_box" style="display:none;">
                   <div style="font-size:11px;font-weight:700;color:var(--navy);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px;">CCM Inputs</div>
-                  <div class="grid grid-2" style="gap:8px;">
+                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
                     <div><label class="small" style="font-weight:700;display:block;margin-bottom:3px;">CCM-eligible patients</label><input id="mr_cp" type="number" value="800" oninput="calcMayoROI()" class="mayo-input"/></div>
                     <div><label class="small" style="font-weight:700;display:block;margin-bottom:3px;">Enrollment rate (%)</label><input id="mr_ce" type="number" value="40" step="1" oninput="calcMayoROI()" class="mayo-input"/></div>
                     <div><label class="small" style="font-weight:700;display:block;margin-bottom:3px;">Avg billed months/patient/yr</label><input id="mr_cmo" type="number" value="8" step="1" oninput="calcMayoROI()" class="mayo-input"/></div>
@@ -842,7 +842,7 @@
                     <div><label class="small" style="font-weight:700;display:block;margin-bottom:3px;">Staff min/month &times; $0.65/min</label><input id="mr_cmin" type="number" value="20" step="5" oninput="calcMayoROI()" class="mayo-input"/></div>
                   </div>
                   <div style="font-size:11px;font-weight:700;color:var(--navy);text-transform:uppercase;letter-spacing:.05em;margin:10px 0 6px;">TCM Inputs</div>
-                  <div class="grid grid-2" style="gap:8px;">
+                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
                     <div><label class="small" style="font-weight:700;display:block;margin-bottom:3px;">TCM-eligible discharges/yr</label><input id="mr_td" type="number" value="420" oninput="calcMayoROI()" class="mayo-input"/></div>
                     <div><label class="small" style="font-weight:700;display:block;margin-bottom:3px;">Reach/completion rate (%)</label><input id="mr_tr" type="number" value="55" step="1" oninput="calcMayoROI()" class="mayo-input"/></div>
                     <div><label class="small" style="font-weight:700;display:block;margin-bottom:3px;">% billed 99496 (high MDM, 7-day)</label><input id="mr_thigh" type="number" value="35" step="5" oninput="calcMayoROI()" class="mayo-input"/></div>
@@ -857,7 +857,7 @@
                   <strong class="small" style="color:var(--navy);">&#9315; Layer 3 &mdash; VBC Quality Earn-back</strong>
                   <label style="display:flex;align-items:center;gap:5px;cursor:pointer;" class="small"><input type="checkbox" id="mr_vbc_on" onchange="toggleMayoLayer('vbc')"/> Enable</label>
                 </div>
-                <div id="mr_vbc_box" style="display:none;" class="grid grid-2" style="gap:8px;margin-top:8px;">
+                <div id="mr_vbc_box" style="display:none;margin-top:8px;"><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
                   <div><label class="small" style="font-weight:700;display:block;margin-bottom:3px;">Contract type</label>
                     <select id="mr_vbc_type" onchange="toggleMayoCliff();calcMayoROI();" style="width:100%;padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:12px;">
                       <option value="linear">Linear earn-back (ACO / withhold)</option>
@@ -870,12 +870,12 @@
                   <div id="mr_cliff_row1" style="display:none;"><label class="small" style="font-weight:700;display:block;margin-bottom:3px;">Threshold score for bonus</label><input id="mr_thresh" type="number" value="77" oninput="calcMayoROI()" class="mayo-input"/></div>
                   <div id="mr_cliff_row2" style="display:none;"><label class="small" style="font-weight:700;display:block;margin-bottom:3px;">Bonus amount if threshold met ($)</label><input id="mr_cliffbonus" type="number" value="300000" oninput="calcMayoROI()" class="mayo-input"/></div>
                   <div><label class="small" style="font-weight:700;display:block;margin-bottom:3px;">Bank CRA contribution ($/yr)</label><input id="mr_bank" type="number" value="75000" oninput="calcMayoROI()" class="mayo-input"/></div>
-                </div>
+                </div></div>
               </div>
             </div>
 
             <!-- RIGHT COLUMN: live results -->
-            <div style="display:flex;flex-direction:column;gap:12px;">
+            <div style="display:flex;flex-direction:column;gap:12px;min-width:0;flex:1;">
               <!-- Big ROI display -->
               <div style="background:linear-gradient(135deg,var(--navy),#1a3a5c);border-radius:12px;padding:20px;text-align:center;color:#fff;">
                 <div style="font-size:10px;opacity:.5;text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px;">Return on Investment</div>
@@ -891,7 +891,7 @@
               </div>
 
               <!-- KPI grid -->
-              <div class="grid grid-2" style="gap:8px;">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
                 <div style="background:var(--bg-warm);border:1px solid var(--border);border-radius:8px;padding:10px 12px;">
                   <div style="font-size:10px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.05em;">Program Cost/yr</div>
                   <div id="m_kpi_cost" style="font-size:20px;font-weight:900;font-family:monospace;color:var(--navy);margin-top:2px;">&mdash;</div>
