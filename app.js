@@ -2070,6 +2070,92 @@ window.toggleMEN = function(n) {
   }
 };
 
+window.confirmMayoLayer0 = function() {
+  function gv(id) { const el = document.getElementById(id); return el ? (parseFloat(el.value) || 0) : 0; }
+  function norm(v) { return v > 1 ? v / 100 : v; }
+  function fmt(n) { return (n < 0 ? '-$' : '$') + Math.abs(Math.round(n)).toLocaleString(); }
+  function pct(n, d) { return d ? (n / d * 100).toFixed(0) + '%' : '—'; }
+
+  // BASE CASE constants (workbook defaults)
+  const BASE_V = 40000, BASE_N = 0.20, BASE_S = 0.30, BASE_M = 0.50;
+  const BASE_R = 225, BASE_C = 90, BASE_T = 60, BASE_O = 0.10;
+  const basePrevented = BASE_V * BASE_N * BASE_S * BASE_M;
+  const baseCost = basePrevented * BASE_T * (1 + BASE_O);
+  const baseFFS = basePrevented * BASE_R - basePrevented * BASE_C - baseCost;
+
+  // USER INPUTS
+  const V = gv('mr_v'), n = norm(gv('mr_n')), s = norm(gv('mr_s')), m = norm(gv('mr_m'));
+  const r = gv('mr_r'), c = gv('mr_c'), t = gv('mr_t'), o = norm(gv('mr_o'));
+  const prevented = V * n * s * m;
+  const progCost = prevented * t * (1 + o);
+  const ffsNet = prevented * r - prevented * c - progCost;
+  const beTrip = r - c;
+  const roiVal = progCost > 0 ? ffsNet / progCost : 0;
+
+  // COMPARISONS vs BASE CASE
+  const preventedRatio = basePrevented > 0 ? prevented / basePrevented : 0;
+  const ffsRatio = baseFFS > 0 ? ffsNet / baseFFS : 0;
+  const revenueVsBase = r - BASE_R;
+  const visitVsBase = V - BASE_V;
+  const marginPerVisit = r - c;
+  const baseMargin = BASE_R - BASE_C;
+
+  // Build summary lines
+  const lines = [];
+
+  // Line 1: prevented visits vs base
+  const prevDir = preventedRatio >= 1 ? 'above' : 'below';
+  const prevMult = preventedRatio.toFixed(2);
+  lines.push(`<strong style="color:#7A5C00;">&#127919; Layer 0 Analysis — Your Program vs. Illustrative Base Case</strong>`);
+
+  // Visits context
+  const visitDelta = visitVsBase > 0 ? `+${visitVsBase.toLocaleString()} above` : `${Math.abs(visitVsBase).toLocaleString()} below`;
+  lines.push(`<span><strong>Visit volume:</strong> ${V.toLocaleString()} targeted visits (${visitDelta} the 40,000 standard). At ${Math.round(n*100)}% no-show × ${Math.round(s*100)}% transport share × ${Math.round(m*100)}% mitigation, your program protects <strong>${Math.round(prevented).toLocaleString()} visits/year</strong> — ${prevMult}× the base case (${Math.round(basePrevented).toLocaleString()} visits).</span>`);
+
+  // Revenue & margin
+  const revLabel = revenueVsBase > 0
+    ? `$${revenueVsBase} above the $${BASE_R} standard — consistent with a higher-complexity or AMC payer mix`
+    : revenueVsBase < 0
+    ? `$${Math.abs(revenueVsBase)} below the $${BASE_R} standard — reflect this in sensitivity analysis`
+    : `matching the $${BASE_R} standard`;
+  lines.push(`<span><strong>Net revenue per visit:</strong> $${r} — ${revLabel}. Contribution margin per kept visit: <strong>$${Math.round(marginPerVisit)}</strong> (vs. $${baseMargin} standard).</span>`);
+
+  // FFS net benefit
+  const ffsDir = ffsNet >= baseFFS ? 'ahead of' : 'below';
+  const ffsDeltaAmt = Math.abs(ffsNet - baseFFS);
+  lines.push(`<span><strong>Year 1 FFS floor:</strong> <strong>${fmt(ffsNet)}</strong> net benefit — ${ffsDir} the base case (${fmt(baseFFS)}) by ${fmt(ffsDeltaAmt)}. ROI on program cost: <strong>${roiVal.toFixed(2)}×</strong>. Break-even trip cost: <strong>$${beTrip.toFixed(0)}/round trip</strong>.</span>`);
+
+  // Break-even margin context
+  const beMargin = beTrip - t;
+  if (beMargin > 0) {
+    lines.push(`<span><strong>Vendor negotiating position:</strong> Your $${t} trip cost sits $${beMargin.toFixed(0)} below break-even — a ${pct(beMargin, beTrip)} safety margin. The program remains FFS-positive up to <strong>$${beTrip.toFixed(0)}/trip</strong>.</span>`);
+  } else {
+    lines.push(`<span><strong>&#9888; Cost caution:</strong> Your trip cost ($${t}) is at or above break-even ($${beTrip.toFixed(0)}). Revisit trip cost or revenue assumptions before proceeding.</span>`);
+  }
+
+  // Downside note
+  const downsidePrevented = V * n * s * 0.30;
+  const downsideCost = downsidePrevented * t * (1 + o);
+  const downsideFFS = downsidePrevented * r - downsidePrevented * c - downsideCost;
+  const downsideLabel = downsideFFS > 0 ? `still positive at ${fmt(downsideFFS)}` : `negative at ${fmt(downsideFFS)} — revisit inputs`;
+  lines.push(`<span><strong>Downside check (30% mitigation):</strong> FFS net ${downsideLabel}.</span>`);
+
+  const el = document.getElementById('mayo_l0_summary');
+  if (el) {
+    el.innerHTML = `<div style="display:flex;flex-direction:column;gap:7px;font-size:12px;line-height:1.6;color:#1a1a1a;">${lines.map(l => `<div>${l}</div>`).join('')}</div>`;
+    el.style.display = 'block';
+    el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  // Mark confirmed
+  const btn = document.getElementById('mayo_l0_btn');
+  const conf = document.getElementById('mayo_l0_confirmed');
+  if (btn) { btn.textContent = '↺ Re-confirm'; btn.style.background = 'linear-gradient(135deg,#047857,#065f46)'; }
+  if (conf) conf.style.display = 'inline';
+
+  // Also run the live calc
+  calcMayoROI();
+};
 window.toggleMayoCliff = function() {
   const isCliff = document.getElementById('mr_vbc_type') && document.getElementById('mr_vbc_type').value === 'cliff';
   ['mr_cliff_row1','mr_cliff_row2'].forEach(id => {
